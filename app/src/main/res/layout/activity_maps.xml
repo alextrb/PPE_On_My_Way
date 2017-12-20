@@ -5,4 +5,8 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.onmyway.ppe.ppe_onmyway.MapsActivity" />
+    tools:context="com.onmyway.ppe.ppe_onmyway.MapsActivity"
+    map:cameraZoom="12"
+    map:uiZoomControls="true"
+    map:uiMapToolbar="true"
+    map:uiRotateGestures="true" />
