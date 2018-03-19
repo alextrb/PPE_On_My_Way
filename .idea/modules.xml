@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PPE_OnMyWay_local.iml" filepath="$PROJECT_DIR$/PPE_OnMyWay_local.iml" />
+      <module fileurl="file://C:\Users\jeremy_pc\Documents\GitHub\PPE_On_My_Way\PPE_OnMyWay_local.iml" filepath="C:\Users\jeremy_pc\Documents\GitHub\PPE_On_My_Way\PPE_OnMyWay_local.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PPE_On_My_Way.iml" filepath="$PROJECT_DIR$/PPE_On_My_Way.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
