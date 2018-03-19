@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.training.jeremy_pc.mapway.CreationWayActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Adresse"
+            android:layout_weight="4"
+            />
+        <Button
+            android:id="@+id/searchAddressButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Search"
+            android:onClick="searchCoord"
+            android:textSize="10dp"/>
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/activity_maps"
+        android:layout_width="match_parent"
+        android:layout_height="415dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonRetourCreation1"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="delete"
+            android:text="delete"/>
+
+        <Button
+            android:id="@+id/buttonSuivantCreation1"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="next"
+            android:text="Suivant"/>
+
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
