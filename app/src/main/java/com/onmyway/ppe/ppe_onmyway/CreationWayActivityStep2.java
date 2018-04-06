@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -74,6 +75,9 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
     private LatLng origin;
     private LatLng destination;
 
+    //for the next intent
+    private List<CheckPoint> checkPointListDesc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +89,17 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
         wayList = new ArrayList<>();
         checkPointList = new ArrayList<>();
 
+        //for the exchange of intent in the next activity
+        checkPointListDesc = new ArrayList<>();
+
         //We retrieve the intent
         final Intent intent = getIntent();
         String result;
         Bundle bd = intent.getExtras();
         if(bd!=null){
             wayList = intent.getParcelableArrayListExtra("EXTRA_LIST");
+        }else{
+            return;
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -163,7 +172,26 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
 
     public void next(View view) {
 
+        for (int i =0; i<checkPointList.size(); i++){
+            checkPointListDesc.add(new CheckPoint("","", i));
+        }
 
+        System.out.println("dans le next");
+
+        Intent intent = new Intent(this, CreationWayActivityStepName.class);
+        //wayList
+        intent.putParcelableArrayListExtra("EXTRA_LIST_CHECKPOINT", (ArrayList<? extends Parcelable>) checkPointList);
+        intent.putParcelableArrayListExtra("EXTRA_LIST_ITINERAIRE", (ArrayList<? extends Parcelable>) wayList);
+        intent.putExtra("SIZE_LIST_CHECK", checkPointListDesc.size());
+
+        for(int i = 0;i<checkPointListDesc.size(); i++ ){
+            intent.putExtra("NAME"+i,checkPointListDesc.get(i).getName());
+            intent.putExtra("DESCRIPTION"+i,checkPointListDesc.get(i).getDescription());
+            intent.putExtra("ID_CHECK"+i, checkPointListDesc.get(i).getId());
+        }
+
+        System.out.println("fin le next");
+        startActivity(intent);
 
     }
 
@@ -193,17 +221,23 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
 
         mMap = googleMap;
 
+        System.out.println("1 onmapReady2");
         // enable the zoom functionality
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        System.out.println("2 onmapReady2");
         mMap.getMaxZoomLevel();
 
+        System.out.println("3 onmapReady2");
         //for the initialisation of the map
         if(wayList !=null){
 
             // Zoom on the position of the way
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(wayList.get(0), 17);
             mMap.animateCamera(cameraUpdate);
+        }else{
+            System.out.println("wayList null");
         }
+        System.out.println("3 onmapReady2");
 
         if(wayList.size() >= 2){
             System.out.println("5");
@@ -218,10 +252,12 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
             }
 
         }
+        System.out.println("4 onmapReady2");
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
+                System.out.println("5 onmapReady2");
 
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
@@ -272,6 +308,7 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
                     }
 
                 }
+
 
 
 

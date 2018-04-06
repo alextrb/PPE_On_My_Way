@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -84,55 +84,56 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creation_way);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_creation_way);
 
-        //initialisation of View content
-        buttonNext = (Button) findViewById(R.id.buttonSuivantCreation1);
-        buttonDelete = (Button) findViewById(R.id.buttonSuivantCreation1);
-        editText1 = (EditText) findViewById(R.id.editTextAddress);
-        searchAddressButton = (Button) findViewById(R.id.searchAddressButton);
-
-
-        ///////////////////////////////////////MAP PART/////////////////////////////////
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        //Initialisation of the checkPoint table and of the chekpointList
-        markerPositionList = new ArrayList<>();
-        checkPointList = new ArrayList<>();
-        System.out.println("hey2");
-        // initialisation of the LocationManager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        //VERFICATION OF THE PERMISSION! IF NO PERMISSION, THE ACTIVITY IS NOT LAUNCH
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
-            return;
-        }
-
-        currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        //initialisation of the update
-        Intent intent = new Intent(this, MapsActivity.GPSUpdateReceiver.class);
-        PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            //initialisation of View content
+            buttonNext = (Button) findViewById(R.id.buttonSuivantCreation1);
+            buttonDelete = (Button) findViewById(R.id.buttonSuivantCreation1);
+            editText1 = (EditText) findViewById(R.id.editTextAddress);
+            searchAddressButton = (Button) findViewById(R.id.searchAddressButton);
 
 
-        //initialisation of the map
-        if (mapFragment != null) {
-            System.out.println("mapFrag not null");
-            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap map) {
-                    mMap = map;
-                }
-            });
-        } else {
-            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
-        }
+            ///////////////////////////////////////MAP PART/////////////////////////////////
+
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+
+            //Initialisation of the checkPoint table and of the chekpointList
+            markerPositionList = new ArrayList<>();
+            checkPointList = new ArrayList<>();
+            System.out.println("hey2");
+            // initialisation of the LocationManager
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            System.out.println("hey3");
+            //VERFICATION OF THE PERMISSION! IF NO PERMISSION, THE ACTIVITY IS NOT LAUNCH
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+                return;
+            }
+
+            System.out.println("hey4");
+            currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            //initialisation of the update
+            Intent intent = new Intent(this, MapsActivity.GPSUpdateReceiver.class);
+            PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        System.out.println("hey5");
+            //initialisation of the map
+            if (mapFragment != null) {
+                System.out.println("mapFrag not null");
+                mapFragment.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap map) {
+                        mMap = map;
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+            }
 
 
     }
@@ -212,6 +213,7 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        System.out.println("In the onMapReady");
 
         // enable the zoom functionality
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -219,15 +221,17 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
 
         //for the initialisation of the map
         if(currentLocation !=null){
+            System.out.println("current not null");
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             // Zoom on the current position of the user
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
             mMap.animateCamera(cameraUpdate);
         }
 
+        System.out.println("OMR1");
 
         // Current location
-        LatLng currentLatLong = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        //LatLng currentLatLong = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         //MarkerOptions markerUserPosition = new MarkerOptions();
         //markerUserPosition.position(currentLatLong);
         //marker that we can modify with the profil picture maybe
@@ -235,6 +239,7 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLong));
         //mMap.addMarker(markerUserPosition);
 
+        System.out.println("OMR2");
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {

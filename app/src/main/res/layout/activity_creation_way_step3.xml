@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.training.jeremy_pc.mapway.CreationWayActivityStep3"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:text="Décrivez le way ainsi que ces checkpoints!"
+            android:textAlignment="center"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+
+    <!--
+
+    Maybe put a map here for simplified
+
+    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="347dp"
+        android:layout_weight="2"
+        >
+        <ListView
+            android:id="@+id/listCheckPoint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/buttonConfirmStep3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="finaliseWay"
+        android:layout_weight="2"
+        android:text="Confirmer"
+        android:textAlignment="center"
+        android:textSize="15dp"/>
+
+
+</LinearLayout>
