@@ -10,9 +10,13 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Debug;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -32,10 +36,25 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.Console;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WayActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private String[] ids = new String[3];
+    private String[] lats = new String[3];
+    private String[] lngs = new String[3];
 
     //DATABASE SQLLITE
     protected MyOpenDatabase myOpenDatabase = null;
@@ -247,6 +266,7 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
 
+        erasePreviousWayFromExternalDataBase();
     System.out.println("fin du oncreate");
     }
 
@@ -389,6 +409,229 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
         intent.putExtra("CURRENT_ID_USER",currentIdUser);
         startActivity(intent);
 
+    }
+
+
+    public void erasePreviousWayFromExternalDataBase(){
+        class ErasePreviousData extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                URL url;
+                HttpURLConnection conn;
+                try {
+
+                    url = new URL("http://ultra-instinct-ece.000webhostapp.com/erasePreviousWay.php");
+
+                } catch (MalformedURLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    return "exception";
+                }
+                try {
+                    // Setup HttpURLConnection class to send and receive data from php and mysql
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.connect();
+
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    return "exception";
+                }
+
+                try {
+
+                    int response_code = conn.getResponseCode();
+
+                    // Check if successful connection made
+                    if (response_code == HttpURLConnection.HTTP_OK) {
+
+                        // Read data sent from server
+                        InputStream input = conn.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                        StringBuilder result = new StringBuilder();
+                        String line;
+
+                        while ((line = reader.readLine()) != null) {
+                            result.append(line);
+                        }
+
+                        // Pass data to onPostExecute method
+                        return(result.toString());
+
+                    }else{
+
+                        return("unsuccessful");
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "exception";
+                } finally {
+                    conn.disconnect();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                if (result.equalsIgnoreCase("false")){
+
+                    // If username and password does not match display a error message
+                    Toast.makeText(WayActivity.this, "Erreur avec l'insertion dans la BDD", Toast.LENGTH_LONG).show();
+
+                } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+
+                    Toast.makeText(WayActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+                }
+               // addWayToExternalDataBase(view);
+            }
+        }
+        ErasePreviousData EraseDataAsync = new ErasePreviousData();
+        EraseDataAsync.execute();
+    }
+
+
+
+
+
+    public void addWayToExternalDataBase(View view){
+
+        myDB = myOpenDatabase.getReadableDatabase();
+        Cursor wayCoordonnees = myDB.rawQuery("SELECT latitude,longitude FROM itineraire",null);
+
+        int i = 0;
+        wayCoordonnees.moveToFirst();
+        Log.d("cursor", String.valueOf(wayCoordonnees.getColumnCount()));
+        while (!wayCoordonnees.isAfterLast()) {
+          //  ids[i] = String.valueOf(wayCoordonnees.getInt(0));
+          //  Log.d("ids",String.valueOf(wayCoordonnees.getInt(0)));
+            ids[i] = String.valueOf(1);
+            lats[i] = (String)wayCoordonnees.getString(0);
+            lngs[i] = (String)wayCoordonnees.getString(1);
+            i++;
+            wayCoordonnees.moveToNext();
+        }
+        // assurez-vous de la fermeture du curseur
+        wayCoordonnees.close();
+        myDB.close();
+
+        //System.out.println(" result " + way.getNameway());
+
+
+
+        class InsertDataAsync extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected String doInBackground(String... strings) {
+                Log.d("test", strings[1]);
+                URL url;
+                HttpURLConnection conn;
+                try {
+
+                    url = new URL("http://ultra-instinct-ece.000webhostapp.com/addWay.php");
+
+                } catch (MalformedURLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    return "exception";
+                }
+                try {
+                    // Setup HttpURLConnection class to send and receive data from php and mysql
+
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+
+                    // setDoInput and setDoOutput method depict handling of both send and receive
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
+
+                    // Append parameters to URL
+                    Uri.Builder builder = new Uri.Builder()
+                            .appendQueryParameter("id", strings[0])
+                            .appendQueryParameter("latitude", strings[1])
+                            .appendQueryParameter("longitude", strings[2]);
+                    String query = builder.build().getEncodedQuery();
+
+                    // Open connection for sending data
+                    OutputStream os = conn.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(os, "UTF-8"));
+                    writer.write(query);
+                    writer.flush();
+                    writer.close();
+                    os.close();
+                    conn.connect();
+
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    return "exception";
+                }
+
+                try {
+
+                    int response_code = conn.getResponseCode();
+
+                    // Check if successful connection made
+                    if (response_code == HttpURLConnection.HTTP_OK) {
+
+                        // Read data sent from server
+                        InputStream input = conn.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                        StringBuilder result = new StringBuilder();
+                        String line;
+
+                        while ((line = reader.readLine()) != null) {
+                            result.append(line);
+                        }
+
+                        // Pass data to onPostExecute method
+                        return(result.toString());
+
+                    }else{
+
+                        return("unsuccessful");
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "exception";
+                } finally {
+                    conn.disconnect();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                if (result.equalsIgnoreCase("false")){
+
+                    // If username and password does not match display a error message
+                    Toast.makeText(WayActivity.this, "Erreur avec l'insertion dans la BDD", Toast.LENGTH_LONG).show();
+
+                } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+
+                    Toast.makeText(WayActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
+
+        for(i = 0; i<lats.length; i++){
+            InsertDataAsync insertDataAsync = new InsertDataAsync();
+            insertDataAsync.execute(ids[i], lats[i], lngs[i]);
+        }
     }
 
 }
