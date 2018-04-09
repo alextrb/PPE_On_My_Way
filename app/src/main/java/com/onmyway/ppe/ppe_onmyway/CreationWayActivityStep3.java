@@ -178,7 +178,7 @@ public class CreationWayActivityStep3 extends AppCompatActivity {
 
         System.out.println("sql 1");
         // redirection to the new one
-        Intent intent = new Intent(this, CreationWayActivity.class);
+        Intent intent = new Intent(this, AccueilActivity.class);
         intent.putExtra("CURRENT_ID_USER",currentIdUser);
         startActivity(intent);
 

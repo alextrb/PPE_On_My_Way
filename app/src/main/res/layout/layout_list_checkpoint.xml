@@ -1,59 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="95dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="0.4dp"
+            android:layout_height="80dp"
+            android:layout_weight="0.6"
+            android:background="@drawable/picto"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:background="@color/colorOrange2"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.1"
-                android:text="Name of the checkpoint"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/ETCheckpointName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="83dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/colorOrange2">
+            android:layout_weight="3">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:text="Description of the checkpoint"
-                android:textAlignment="center"
-                android:textSize="15dp" />
+                android:orientation="horizontal"
+                android:layout_weight="1">
 
-            <TextView
-                android:layout_weight="2"
-                android:id="@+id/ETdescriptionStep3"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:text="Name"
+                    android:textAlignment="center"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:id="@+id/ETCheckpointName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="3">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="Description"
+                    android:textAlignment="center"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:layout_weight="2"
+                    android:id="@+id/ETdescriptionStep3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+
+            </LinearLayout>
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 

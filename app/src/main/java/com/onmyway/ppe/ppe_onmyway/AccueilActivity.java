@@ -55,8 +55,9 @@ public class AccueilActivity extends AppCompatActivity {
     }
 
     public void monProfil(View view) {
-        //Intent intent = new Intent(this,ListWayActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this,ProfilActivity.class);
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        startActivity(intent);
     }
 
     public void createWay(View view) {
