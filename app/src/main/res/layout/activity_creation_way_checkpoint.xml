@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.training.jeremy_pc.mapway.CreationWayActivityCheckpoint"
+    tools:context="com.onmyway.ppe.ppe_onmyway.CreationWayActivityCheckpoint"
     android:orientation="vertical"
     android:background="@drawable/backitineraire">
 

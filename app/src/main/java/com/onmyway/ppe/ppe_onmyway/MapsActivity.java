@@ -1,4 +1,4 @@
-package com.training.jeremy_pc.mapway;
+package com.onmyway.ppe.ppe_onmyway;
 
 import android.Manifest;
 import android.app.DownloadManager;

@@ -50,13 +50,17 @@
     <activity android:name=".Checkpoint_Activity" />
     <activity android:name=".CreationWayActivityCheckpoint" />
     <activity android:name=".CreationWayActivityStepName" />
-    <activity android:name=".AccueilActivity">
+    <activity android:name=".LoginActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
+    <activity android:name=".AccueilActivity">
+    </activity>
+    <activity android:name=".InscriptionActivity" />
+    <activity android:name=".ProfilActivity"></activity>
   <!--  <activity android:name=".LoginActivity"></activity> -->
 </application>
 

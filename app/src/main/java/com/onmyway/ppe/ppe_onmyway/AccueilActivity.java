@@ -1,4 +1,4 @@
-package com.training.jeremy_pc.mapway;
+package com.onmyway.ppe.ppe_onmyway;
 
 import android.content.Intent;
 import android.os.Parcelable;
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.onmyway.ppe.ppe_onmyway.R;
 
 import java.util.ArrayList;
 
@@ -32,7 +34,7 @@ public class AccueilActivity extends AppCompatActivity {
             currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
             // add a condition in the case that we were in the activity of description of the activity
             if(currentIdUser == -1){
-                Intent intent2 = new Intent(this,LoginActivity.class);
+                Intent intent2 = new Intent(this, LoginActivity.class);
                 startActivity(intent2);
             }
 
@@ -40,7 +42,6 @@ public class AccueilActivity extends AppCompatActivity {
             System.out.println("error in the retrieving of the intent");
             return ;
         }
-
 
     }
 

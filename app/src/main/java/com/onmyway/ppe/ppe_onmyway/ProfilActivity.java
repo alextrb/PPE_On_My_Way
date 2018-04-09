@@ -1,4 +1,4 @@
-package com.training.jeremy_pc.mapway;
+package com.onmyway.ppe.ppe_onmyway;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

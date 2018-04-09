@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.training.jeremy_pc.mapway.InscriptionActivity"
+    tools:context="com.onmyway.ppe.ppe_onmyway.InscriptionActivity"
     android:orientation="vertical"
     android:background="@drawable/photous2">
 
