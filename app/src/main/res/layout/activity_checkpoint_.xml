@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.training.jeremy_pc.mapway.Checkpoint_Activity"
     android:orientation="vertical"
-    android:background="@drawable/backItineraire">
+    android:background="@drawable/backitineraire">
 
 
     <LinearLayout
