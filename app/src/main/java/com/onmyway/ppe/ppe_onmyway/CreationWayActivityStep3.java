@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -58,6 +58,8 @@ public class CreationWayActivityStep3 extends AppCompatActivity {
 
     CustomAdapter customAdapter;
 
+    private int currentIdUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +89,13 @@ public class CreationWayActivityStep3 extends AppCompatActivity {
             checkPointList = intent.getParcelableArrayListExtra("EXTRA_LIST_CHECKPOINT");
             name_way = intent.getStringExtra("EXTRA_NAME_WAY");
             position = intent.getIntExtra("EXTRA_POSITION_CHEKPOINT",-1);
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
 
             int size = intent.getIntExtra("SIZE_LIST_CHECK", 0);
             for(int i = 0; i< size; i++){
@@ -170,6 +179,7 @@ public class CreationWayActivityStep3 extends AppCompatActivity {
         System.out.println("sql 1");
         // redirection to the new one
         Intent intent = new Intent(this, CreationWayActivity.class);
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
         startActivity(intent);
 
 
@@ -233,6 +243,7 @@ public class CreationWayActivityStep3 extends AppCompatActivity {
         System.out.print(" name_way " + name_way);
         System.out.print("position " + position);
         System.out.print(" checkPointListDesc.size() "+ checkPointListDesc.size());
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
 
         for(int i = 0;i<checkPointListDesc.size(); i++ ){
             intent.putExtra("NAME"+i,checkPointListDesc.get(i).getName());

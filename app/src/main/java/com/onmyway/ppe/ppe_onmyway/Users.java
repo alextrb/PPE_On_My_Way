@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 /**
  * Created by jeremy_pc on 21/03/2018.

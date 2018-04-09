@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.Manifest;
 import android.content.Context;
@@ -65,6 +65,8 @@ public class CreationWayActivityCheckpoint extends AppCompatActivity implements 
 
     private MarkerOptions checkpointPosition;
 
+    private int currentIdUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,13 @@ public class CreationWayActivityCheckpoint extends AppCompatActivity implements 
             name_way = intent.getStringExtra("EXTRA_NAME_WAY");
             position = intent.getIntExtra("EXTRA_POSITION_CHEKPOINT",0);
             int size = intent.getIntExtra("SIZE_LIST_CHECK", 0);
+
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
 
             System.out.println(" wayList " + wayList);
             System.out.println(" checkPointList " + checkPointList);
@@ -166,6 +175,7 @@ public class CreationWayActivityCheckpoint extends AppCompatActivity implements 
             intent.putExtra("EXTRA_NAME_WAY",name_way);
             intent.putExtra("EXTRA_POSITION_CHEKPOINT",position);
             intent.putExtra("SIZE_LIST_CHECK", checkPointListDesc.size());
+            intent.putExtra("CURRENT_ID_USER",currentIdUser);
 
             for(int i = 0;i<checkPointListDesc.size(); i++ ){
 

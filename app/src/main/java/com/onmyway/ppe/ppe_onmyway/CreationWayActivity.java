@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -82,6 +82,8 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
     //geocoder
     private Geocoder geocoder;
 
+    private int currentIdUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -92,6 +94,21 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
             buttonDelete = (Button) findViewById(R.id.buttonSuivantCreation1);
             editText1 = (EditText) findViewById(R.id.editTextAddress);
             searchAddressButton = (Button) findViewById(R.id.searchAddressButton);
+
+        final Intent intent = getIntent();
+        Bundle bd = intent.getExtras();
+        if(bd!=null){
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
+
+        }else{
+            System.out.println("error in the retrieving of the intent");
+            return ;
+        }
 
 
             ///////////////////////////////////////MAP PART/////////////////////////////////
@@ -118,8 +135,8 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
             currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             //initialisation of the update
-            Intent intent = new Intent(this, MapsActivity.GPSUpdateReceiver.class);
-            PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent intent2 = new Intent(this, MapsActivity.GPSUpdateReceiver.class);
+            PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
 
         System.out.println("hey5");
             //initialisation of the map
@@ -174,6 +191,7 @@ public class CreationWayActivity extends AppCompatActivity implements LocationLi
         if(checkPointList.size()>=2){
             System.out.println("1 intent");
             Intent intent = new Intent(this,CreationWayActivityStep2.class);
+            intent.putExtra("CURRENT_ID_USER",currentIdUser);
             System.out.println("2 intent");
             //intent.putExtra("EXTRA_SIZE", checkPointList.size());
             intent.putParcelableArrayListExtra("EXTRA_LIST", (ArrayList<? extends Parcelable>) checkPointList);

@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +41,8 @@ public class CreationWayActivityStepName extends AppCompatActivity {
 
     private boolean find;
 
+    private int currentIdUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,14 @@ public class CreationWayActivityStepName extends AppCompatActivity {
             wayList = intent.getParcelableArrayListExtra("EXTRA_LIST_ITINERAIRE");
             checkPointList = intent.getParcelableArrayListExtra("EXTRA_LIST_CHECKPOINT");
             int size = intent.getIntExtra("SIZE_LIST_CHECK", 0);
+
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
+
             for(int i = 0; i< size; i++){
                 String name = intent.getStringExtra("NAME"+i);
                 String desc = intent.getStringExtra("DESCRIPTION"+i);
@@ -126,6 +136,7 @@ public class CreationWayActivityStepName extends AppCompatActivity {
                 intent.putParcelableArrayListExtra("EXTRA_LIST_ITINERAIRE", (ArrayList<? extends Parcelable>) wayList);
                 intent.putExtra("EXTRA_NAME_WAY",editTextNameWay.getText().toString());
                 intent.putExtra("EXTRA_POSITION_CHEKPOINT",-1);
+                intent.putExtra("CURRENT_ID_USER",currentIdUser);
                 intent.putExtra("SIZE_LIST_CHECK", checkPointListDesc.size());
                 System.out.println("SIZE_LIST_CHECK "+ checkPointListDesc.size());
                 for(int i = 0;i<checkPointListDesc.size(); i++ ){

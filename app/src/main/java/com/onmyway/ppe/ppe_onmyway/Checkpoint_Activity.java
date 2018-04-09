@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.Manifest;
 import android.content.Context;
@@ -59,6 +59,8 @@ public class Checkpoint_Activity extends AppCompatActivity implements LocationLi
     private List<LatLng> latLngList;
     private List<MarkerOptions> checkPointList;
 
+    private int currentIdUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,12 @@ public class Checkpoint_Activity extends AppCompatActivity implements LocationLi
         Bundle bd = intent.getExtras();
         if(bd!=null){
             IDcheckpoint = intent.getIntExtra("ID_CHECKPOINT",0);
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
         }else{
             System.out.println("error in the retrieving of the intent");
             return ;

@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.Manifest;
 import android.content.Context;
@@ -51,6 +51,8 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
 
     private Context mListener;
 
+    private int currentIdUser;
+
     //List of the Latlng for the itineraire
     List<LatLng> latLngList;
 
@@ -99,9 +101,33 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
 
         final Intent intent = getIntent();
 
+        /*
+        // retrieve the intent and redirect if we don't have it to the login!
+        final Intent intent = getIntent();
+        Bundle bd = intent.getExtras();
+        if(bd!=null){
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
+
+        }else{
+            System.out.println("error in the retrieving of the intent");
+            return ;
+        }
+         */
+
         Bundle bd = intent.getExtras();
         if(bd!=null){
             wayID = intent.getIntExtra("ID_WAY",0);
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
         }else{
             System.out.println("error in the retrieving of the intent");
             return ;
@@ -360,6 +386,7 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
         Intent intent = new Intent(this, Checkpoint_Activity.class);
         //wayList
         intent.putExtra("ID_CHECKPOINT",listObjectCheckpoint.get(position).getId());
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
         startActivity(intent);
 
     }

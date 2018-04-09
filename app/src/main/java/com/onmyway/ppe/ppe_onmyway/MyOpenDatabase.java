@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

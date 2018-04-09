@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.onmyway.ppe.ppe_onmyway.CreationWayActivityStep2"
-    android:orientation="vertical">
+    tools:context="com.training.jeremy_pc.mapway.CreationWayActivityStep2"
+    android:orientation="vertical"
+    android:background="@drawable/backItineraire">
 
     <include
         layout="@layout/activity_maps"

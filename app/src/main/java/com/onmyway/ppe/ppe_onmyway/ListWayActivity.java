@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -35,12 +35,30 @@ public class ListWayActivity extends AppCompatActivity {
     TextView textViewNameWay;
     TextView textViewNameUser;
 
+    private int currentIdUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_way);
 
         System.out.println("1");
+
+        // retrieve the intent and redirect if we don't have it to the login!
+        final Intent intent = getIntent();
+        Bundle bd = intent.getExtras();
+        if(bd!=null){
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
+
+        }else{
+            System.out.println("error in the retrieving of the intent");
+            return ;
+        }
 
         //SQL LITE
         mListener = getApplicationContext();
@@ -58,14 +76,6 @@ public class ListWayActivity extends AppCompatActivity {
         listViewWay.setAdapter(customAdapter);
 
         System.out.println("5");
-
-        /*myDB = myOpenDatabase.getWritableDatabase();
-        ContentValues values3 = new ContentValues();
-        values3.put("username","jeremyCtln");
-        values3.put("mail","jeremy.catelain@ece.fr");
-        values3.put("password","password");
-        myDB.insert("users",null,values3);
-        myDB.close();*/
 
         myDB = myOpenDatabase.getReadableDatabase();
 
@@ -157,6 +167,7 @@ public class ListWayActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WayActivity.class);
         //wayList
         intent.putExtra("ID_WAY",wayList.get(position).getId());
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
         startActivity(intent);
 
     }

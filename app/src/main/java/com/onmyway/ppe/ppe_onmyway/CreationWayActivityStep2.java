@@ -1,4 +1,4 @@
-package com.onmyway.ppe.ppe_onmyway;
+package com.training.jeremy_pc.mapway;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -77,6 +77,7 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
 
     //for the next intent
     private List<CheckPoint> checkPointListDesc;
+    private int currentIdUser;
 
 
     @Override
@@ -98,6 +99,12 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
         Bundle bd = intent.getExtras();
         if(bd!=null){
             wayList = intent.getParcelableArrayListExtra("EXTRA_LIST");
+            currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            // add a condition in the case that we were in the activity of description of the activity
+            if(currentIdUser == -1){
+                Intent intent2 = new Intent(this,LoginActivity.class);
+                startActivity(intent2);
+            }
         }else{
             return;
         }
@@ -183,6 +190,7 @@ public class CreationWayActivityStep2 extends AppCompatActivity implements Locat
         intent.putParcelableArrayListExtra("EXTRA_LIST_CHECKPOINT", (ArrayList<? extends Parcelable>) checkPointList);
         intent.putParcelableArrayListExtra("EXTRA_LIST_ITINERAIRE", (ArrayList<? extends Parcelable>) wayList);
         intent.putExtra("SIZE_LIST_CHECK", checkPointListDesc.size());
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
 
         for(int i = 0;i<checkPointListDesc.size(); i++ ){
             intent.putExtra("NAME"+i,checkPointListDesc.get(i).getName());
