@@ -61,7 +61,8 @@
         <activity android:name=".InscriptionActivity" />
         <activity android:name=".ProfilActivity" />
         <!-- <activity android:name=".LoginActivity"></activity> -->
-        <activity android:name=".AllMapActivity"></activity>
+        <activity android:name=".AllMapActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -43,7 +43,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
-        <Button
+        <TextView
+            android:paddingTop="10dp"
+            android:textColor="@color/colorOrange5"
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:fontFamily="serif"
             android:id="@+id/profilButton"
             android:text="Mon Profil"
             android:layout_marginTop="10px"
@@ -51,7 +56,8 @@
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:layout_weight="1"
-            android:onClick="monProfil"/>
+            android:onClick="monProfil"
+            android:background="@drawable/buttons"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,15 +78,21 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
-        <Button
+        <TextView
+            android:fontFamily="serif"
             android:id="@+id/createButton"
+            android:paddingTop="10dp"
+            android:textColor="@color/colorOrange5"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:text="Create a Way"
             android:layout_marginTop="10px"
             android:layout_marginBottom="10px"
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:layout_weight="1"
-            android:onClick="createWay" />
+            android:onClick="createWay"
+            android:background="@drawable/buttons"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,7 +113,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
-        <Button
+        <TextView
+            android:background="@drawable/buttons"
+            android:fontFamily="serif"
+            android:textColor="@color/colorOrange5"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:id="@+id/rechercheButton"
             android:text="Cherche un Way"
             android:layout_marginTop="10px"

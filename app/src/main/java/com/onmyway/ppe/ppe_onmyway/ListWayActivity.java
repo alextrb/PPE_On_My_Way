@@ -116,6 +116,12 @@ public class ListWayActivity extends AppCompatActivity {
 
     }
 
+    public void mapRedirection(View view) {
+        Intent intent = new Intent(this, AllMapActivity.class);
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        startActivity(intent);
+    }
+
 
     class CustomAdapter extends BaseAdapter {
 
