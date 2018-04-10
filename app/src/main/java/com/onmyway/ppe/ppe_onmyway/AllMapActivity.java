@@ -76,7 +76,7 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
 
         final Intent intent = getIntent();
         Bundle bd = intent.getExtras();
-        /*if(bd!=null){
+        if(bd!=null){
 
             currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
             // add a condition in the case that we were in the activity of description of the activity
@@ -88,7 +88,7 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
         }else{
             System.out.println("error in the retrieving of the intent");
             return ;
-        }*/
+        }
 
         // initialisation of the LocationManager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -141,25 +141,6 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
         System.out.println("BEFORE SELECTION DATABASE");
 
         // lister tous les way et les afficher ensuite sur la map !!
-
-        // we looked in the databae each way
-
-        /*
-        "CREATE TABLE " + TABLE_NAME1 + " (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "nameway VARCHAR, " +
-                    "noteway INTEGER, " +
-                    "iduser INTEGER);";
-         */
-
-        /*
-        private static final String TABLE_ITINERAIRE_CREATE =
-            "CREATE TABLE " + TABLE_NAME2 + " (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "nameway VARCHAR, " +
-                    "latitude VARCHAR, " +
-                    "longitude VARCHAR);";
-         */
 
         // We retrieve all ways and we stored them in a list
         myDB = myOpenDatabase.getReadableDatabase();
@@ -215,8 +196,6 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
         System.out.println("AFTER Third SELECTION DATABASE");
 
 
-
-
         // we displayed now on the map all ways
         for(int i=0; i<listWay.size();i++){
 
@@ -263,48 +242,78 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
                 System.out.println("yo2 " +lngfinal);
                 System.out.println("coordinate latitude " + listWay.get(1).getListCoord().get(1).latitude);
 
-                for(int i=0; i<listWay.size();i++){
+                for(int i=0; i<listWay.size();i++) {
 
-                    for(int j=1; j<listWay.get(i).getListCoord().size();j++){
+                    for (int j = 1; j < listWay.get(i).getListCoord().size(); j++) {
 
                         System.out.println("1");
                         // we looked in the itineraire list
                         String latStr = String.format("%.3f", listWay.get(i).getListCoord().get(j).latitude);
                         String lngStr = String.format("%.3f", listWay.get(i).getListCoord().get(j).longitude);
-                        double latfinal2 = Double.parseDouble(latStr.replace(',','.'));
-                        double lngfinal2 = Double.parseDouble(lngStr.replace(',','.'));
+                        double latfinal2 = Double.parseDouble(latStr.replace(',', '.'));
+                        double lngfinal2 = Double.parseDouble(lngStr.replace(',', '.'));
 
                         System.out.println("2");
-                        if(latfinal ==  latfinal2 && lngfinal == lngfinal2){
+                        if (latfinal == latfinal2 && lngfinal == lngfinal2) {
                             System.out.print("way trouvé! ");
                         }
                         System.out.println("3");
 
                     }
-                    
-                    // we looked in the checkpoint list
-                    for(int j=1; j<listWay.get(i).getListCoord().size();j++){
-                        String latStr2 = String.format("%.3f", listWay.get(i).getListCheck().get(j).latitude);
-                        String lngStr2 = String.format("%.3f", listWay.get(i).getListCheck().get(j).longitude);
-                        double latfinal3 = Double.parseDouble(latStr2.replace(',','.'));
-                        double lngfinal3 = Double.parseDouble(lngStr2.replace(',','.'));
-
-                        System.out.println("4");
-                        if(latfinal ==  latfinal3 && lngfinal == lngfinal3){
-                            System.out.print("way trouvé! ");
-                        }
-                    }
-
-
-
                 }
 
+                for(int i=0; i<listWay.size();i++) {
+                    // we looked in the checkpoint list
+                    for (int j = 0; j < listWay.get(i).getListCheck().size(); j++) {
+                        String latStr2 = String.format("%.3f", listWay.get(i).getListCheck().get(j).latitude);
+                        String lngStr2 = String.format("%.3f", listWay.get(i).getListCheck().get(j).longitude);
+                        double latfinal3 = Double.parseDouble(latStr2.replace(',', '.'));
+                        double lngfinal3 = Double.parseDouble(lngStr2.replace(',', '.'));
+
+                        System.out.println("4");
+                        if (latfinal == latfinal3 && lngfinal == lngfinal3) {
+                            System.out.print("way trouvé! ");
+
+                            String nameWay = listWay.get(i).getNameway();
+
+                            int wayID = -1;
+                            Cursor result2 = myDB.rawQuery("SELECT * FROM way WHERE nameway = '"+nameWay+"'",null);
+                            result2.moveToFirst();
+
+                            System.out.println("query  itineraire2");
+
+                            while(!result2.isAfterLast()){
+                                wayID = result2.getInt(0);
+                                result2.moveToNext();
+                            }
+
+                            result2.close();
+                            // redirection to the wayActivity with the currentIdUser and WayID
+                            System.out.print("REDIRECTION");
+                            redirection(wayID);
+
+
+                        }
+                    }
+                }
             }
+
+
         });
 
 
                 System.out.println("END ON MAP READY");
 
+
+    }
+
+    public void redirection(int wayID){
+
+        Intent intent = new Intent(this, WayActivity.class);
+        //wayList
+        intent.putExtra("ID_WAY",wayID);
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        startActivity(intent);
 
     }
 

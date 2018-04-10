@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.onmyway.ppe.ppe_onmyway.R;
 
@@ -13,9 +14,9 @@ import java.util.ArrayList;
 
 public class AccueilActivity extends AppCompatActivity {
 
-    private Button rechercheButton;
-    private Button createButton;
-    private Button profilButton;
+    private TextView rechercheButton;
+    private TextView createButton;
+    private TextView profilButton;
     private int currentIdUser;
 
     @Override
@@ -23,9 +24,9 @@ public class AccueilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
-        rechercheButton = (Button) findViewById(R.id.rechercheButton);
-        createButton = (Button) findViewById(R.id.createButton);
-        profilButton = (Button) findViewById(R.id.profilButton);
+        rechercheButton = (TextView) findViewById(R.id.rechercheButton);
+        createButton = (TextView) findViewById(R.id.createButton);
+        profilButton = (TextView) findViewById(R.id.profilButton);
 
         // retrieve the intent and redirect if we don't have it to the login!
         final Intent intent = getIntent();
