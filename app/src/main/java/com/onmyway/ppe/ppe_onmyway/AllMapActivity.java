@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,7 +21,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AllMapActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback  {
 
@@ -44,6 +52,12 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
 
     private int currentIdUser;
 
+    private List<Way> listWay;
+
+    //previous and new point
+    private LatLng origin;
+    private LatLng destination;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +67,8 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync((OnMapReadyCallback) this);
 
+        //initialisation of the list!
+        listWay = new ArrayList<>();
 
         //Intialisation of the database
         mListener = getApplicationContext();
@@ -60,7 +76,7 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
 
         final Intent intent = getIntent();
         Bundle bd = intent.getExtras();
-        if(bd!=null){
+        /*if(bd!=null){
 
             currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
             // add a condition in the case that we were in the activity of description of the activity
@@ -72,7 +88,7 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
         }else{
             System.out.println("error in the retrieving of the intent");
             return ;
-        }
+        }*/
 
         // initialisation of the LocationManager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -122,15 +138,172 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
             mMap.animateCamera(cameraUpdate);
         }
+        System.out.println("BEFORE SELECTION DATABASE");
 
         // lister tous les way et les afficher ensuite sur la map !!
 
         // we looked in the databae each way
 
+        /*
+        "CREATE TABLE " + TABLE_NAME1 + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "nameway VARCHAR, " +
+                    "noteway INTEGER, " +
+                    "iduser INTEGER);";
+         */
+
+        /*
+        private static final String TABLE_ITINERAIRE_CREATE =
+            "CREATE TABLE " + TABLE_NAME2 + " (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "nameway VARCHAR, " +
+                    "latitude VARCHAR, " +
+                    "longitude VARCHAR);";
+         */
+
+        // We retrieve all ways and we stored them in a list
+        myDB = myOpenDatabase.getReadableDatabase();
+        String [] columns = {"id","nameway","noteway","iduser"};
+        Cursor result = myDB.query("way",columns,null,null,null,null,null);
+        result.moveToFirst();
+        while(!result.isAfterLast()){
+            Way way = new Way(result.getInt(0),result.getString(1),result.getInt(2),result.getInt(3));
+            listWay.add(way);
+            result.moveToNext();
+        }
+        result.close();
+        System.out.println("AFTER FIRST SELECTION DATABASE");
+
+        // for each way we retrieve the list of coord
+        String [] columns2 = {"id","nameway","latitude","longitude"};
+        Cursor result2 = myDB.query("itineraire",columns2,null,null,null,null,null);
+        result2.moveToFirst();
+        while(!result2.isAfterLast()){
+
+            for(int i =0; i<listWay.size();i++){
+                if(result2.getString(1).equals(listWay.get(i).getNameway())){
+                    System.out.println("BEFORE THE PARSE");
+                    LatLng latLng = new LatLng(Double.parseDouble(result2.getString(2)), Double.parseDouble(result2.getString(3)));
+                    System.out.println("ADD TO THE LIST");
+                    listWay.get(i).addToList(latLng);
+                    System.out.println("after the parse");
+                }
+            }
+            result2.moveToNext();
+        }
+        result2.close();
+        System.out.println("AFTER SECOND SELECTION DATABASE");
+
+        String [] columns3 = {"id","nameway","latitude","longitude","namecheckpoint","description"};
+        Cursor result3 = myDB.query("checkpoint",columns3,null,null,null,null,null);
+
+        result3.moveToFirst();
+        while(!result3.isAfterLast()){
+
+            for(int i=0; i<listWay.size();i++){
+                if(result3.getString(1).equals(listWay.get(i).getNameway())){
+                    System.out.println("BEFORE THE PARSE");
+                    LatLng latLng = new LatLng(Double.parseDouble(result3.getString(2)), Double.parseDouble(result3.getString(3)));
+                    System.out.println("ADD TO THE LIST");
+                    listWay.get(i).addToListCheck(latLng);
+                    System.out.println("after the parse");
+                }
+            }
+            result3.moveToNext();
+        }
+        result3.close();
+        System.out.println("AFTER Third SELECTION DATABASE");
 
 
-        // for each way we retrieve the
 
+
+        // we displayed now on the map all ways
+        for(int i=0; i<listWay.size();i++){
+
+            for(int j=1; j<listWay.get(i).getListCoord().size();j++){
+                System.out.println("1");
+                origin = listWay.get(i).getListCoord().get(j-1);
+                destination = listWay.get(i).getListCoord().get(j);
+                mMap.addPolyline(new PolylineOptions().add(
+                        origin,
+                        destination
+                ).color(Color.argb(255,255,153,51))
+                        .width(15));
+            }
+
+        }
+
+        //Positioner les checkpoint sur la map !
+        for(int i=0; i<listWay.size();i++){
+
+            for(int j=1; j<listWay.get(i).getListCheck().size();j++){
+                System.out.println("1");
+                MarkerOptions markerOptions2 = new MarkerOptions();
+                markerOptions2.position(listWay.get(i).getListCheck().get(j));
+                markerOptions2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                mMap.addMarker(markerOptions2);
+            }
+
+        }
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                double latitudeClick = latLng.latitude;
+                double longitudeclick = latLng.longitude;
+                double lat = latitudeClick;
+                String lat2 = String.format("%.3f", lat);
+                double lng = longitudeclick;
+                String lng2 = String.format("%.3f", lng);
+                double latfinal = Double.parseDouble(lat2.replace(',','.'));
+                double lngfinal = Double.parseDouble(lng2.replace(',','.'));
+
+                System.out.println("yo1" + latfinal);
+                System.out.println("yo2 " +lngfinal);
+                System.out.println("coordinate latitude " + listWay.get(1).getListCoord().get(1).latitude);
+
+                for(int i=0; i<listWay.size();i++){
+
+                    for(int j=1; j<listWay.get(i).getListCoord().size();j++){
+
+                        System.out.println("1");
+                        // we looked in the itineraire list
+                        String latStr = String.format("%.3f", listWay.get(i).getListCoord().get(j).latitude);
+                        String lngStr = String.format("%.3f", listWay.get(i).getListCoord().get(j).longitude);
+                        double latfinal2 = Double.parseDouble(latStr.replace(',','.'));
+                        double lngfinal2 = Double.parseDouble(lngStr.replace(',','.'));
+
+                        System.out.println("2");
+                        if(latfinal ==  latfinal2 && lngfinal == lngfinal2){
+                            System.out.print("way trouvé! ");
+                        }
+                        System.out.println("3");
+
+                    }
+                    
+                    // we looked in the checkpoint list
+                    for(int j=1; j<listWay.get(i).getListCoord().size();j++){
+                        String latStr2 = String.format("%.3f", listWay.get(i).getListCheck().get(j).latitude);
+                        String lngStr2 = String.format("%.3f", listWay.get(i).getListCheck().get(j).longitude);
+                        double latfinal3 = Double.parseDouble(latStr2.replace(',','.'));
+                        double lngfinal3 = Double.parseDouble(lngStr2.replace(',','.'));
+
+                        System.out.println("4");
+                        if(latfinal ==  latfinal3 && lngfinal == lngfinal3){
+                            System.out.print("way trouvé! ");
+                        }
+                    }
+
+
+
+                }
+
+            }
+        });
+
+
+                System.out.println("END ON MAP READY");
 
 
     }

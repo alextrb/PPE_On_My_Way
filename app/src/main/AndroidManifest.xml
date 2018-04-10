@@ -51,17 +51,18 @@
         <activity android:name=".CreationWayActivityCheckpoint" />
         <activity android:name=".CreationWayActivityStepName" />
         <activity android:name=".LoginActivity">
+        </activity>
+        <activity android:name=".AccueilActivity"></activity>
+        <activity android:name=".InscriptionActivity" />
+        <activity android:name=".ProfilActivity" />
+        <!-- <activity android:name=".LoginActivity"></activity> -->
+        <activity android:name=".AllMapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AccueilActivity"></activity>
-        <activity android:name=".InscriptionActivity" />
-        <activity android:name=".ProfilActivity" />
-        <!-- <activity android:name=".LoginActivity"></activity> -->
-        <activity android:name=".AllMapActivity"></activity>
     </application>
 
 </manifest>
