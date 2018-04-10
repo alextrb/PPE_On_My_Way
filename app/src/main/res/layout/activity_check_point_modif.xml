@@ -9,25 +9,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:background="@drawable/picto"
+            android:textAlignment="center" />
 
         <EditText
             android:id="@+id/textViewNameCheckpoint"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:contentDescription="Nom du point d'intérêt"
+            android:inputType="text"
+            android:text="Nom du point d'intérêt"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20dp" />
 
     </LinearLayout>
 
     <include
         layout="@layout/activity_maps"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="180dp"
         android:layout_weight="4" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,39 +44,14 @@
         android:layout_weight="4">
 
         <EditText
-            android:textSize="20dp"
             android:id="@+id/TVdescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="0.1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="4" />
-
-            <ImageView
-                android:textAlignment="center"
-                android:background="@drawable/picto"
-                android:layout_weight="1.2"
-                android:layout_width="2dp"
-                android:layout_height="80dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="4"/>
-
-        </LinearLayout>
-
-
+            android:contentDescription="Description du point d'intérêt"
+            android:inputType="text"
+            android:text="Description du point d'intérêt"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,7 +63,7 @@
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
             android:id="@+id/modification"
-            android:text="modifier"
+            android:text="Enregistrer"
             android:onClick="modificationChekpoint"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

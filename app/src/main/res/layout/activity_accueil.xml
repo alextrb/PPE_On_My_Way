@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.onmyway.ppe.ppe_onmyway.AccueilActivity"
-    android:orientation="vertical"
-    android:background="@drawable/backitineraire">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +43,7 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:paddingTop="10dp"
+            android:paddingTop="13dp"
             android:textColor="@color/colorOrange5"
             android:textAlignment="center"
             android:textSize="25dp"
@@ -79,20 +78,20 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:fontFamily="serif"
             android:id="@+id/createButton"
-            android:paddingTop="10dp"
-            android:textColor="@color/colorOrange5"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            android:text="Create a Way"
-            android:layout_marginTop="10px"
-            android:layout_marginBottom="10px"
             android:layout_width="100dp"
             android:layout_height="70dp"
+            android:layout_marginBottom="10px"
+            android:layout_marginTop="10px"
             android:layout_weight="1"
+            android:background="@drawable/buttons"
+            android:fontFamily="serif"
             android:onClick="createWay"
-            android:background="@drawable/buttons"/>
+            android:paddingTop="13dp"
+            android:text="Créer un way"
+            android:textAlignment="center"
+            android:textColor="@color/colorOrange5"
+            android:textSize="25dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,19 +113,19 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:background="@drawable/buttons"
-            android:fontFamily="serif"
-            android:textColor="@color/colorOrange5"
-            android:textAlignment="center"
-            android:textSize="25dp"
             android:id="@+id/rechercheButton"
-            android:text="Cherche un Way"
-            android:layout_marginTop="10px"
-            android:layout_marginBottom="40px"
             android:layout_width="100dp"
             android:layout_height="70dp"
+            android:layout_marginBottom="40px"
+            android:layout_marginTop="10px"
             android:layout_weight="1"
-            android:onClick="ChercherWay"/>
+            android:background="@drawable/buttons"
+            android:fontFamily="serif"
+            android:onClick="ChercherWay"
+            android:text="Parcourir les ways"
+            android:textAlignment="center"
+            android:textColor="@color/colorOrange5"
+            android:textSize="25dp" />
 
         <TextView
             android:layout_width="wrap_content"

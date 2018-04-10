@@ -40,29 +40,55 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".CreationWayActivity"
-            android:label="Step 1/3: Tracer le Way" />
+            android:label="Etape 1/3: Tracez le Way" />
         <activity
             android:name=".CreationWayActivityStep2"
-            android:label="Step 2/3: Positionner les checkpoints" />
-        <activity android:name=".CreationWayActivityStep3" />
-        <activity android:name=".ListWayActivity" />
-        <activity android:name=".WayActivity" />
-        <activity android:name=".Checkpoint_Activity" />
-        <activity android:name=".CreationWayActivityCheckpoint" />
-        <activity android:name=".CreationWayActivityStepName" />
-        <activity android:name=".LoginActivity">
+            android:label="Etape 2/3: Positionner les checkpoints" />
+        <activity
+            android:name=".CreationWayActivityStep3"
+            android:label="Etape 3/3 : Description du way"/>
+        <activity
+            android:name=".ListWayActivity"
+            android:label="Ways de la communauté"/>
+        <activity
+            android:name=".WayActivity"
+            android:label="Détails du way"/>
+        <activity
+            android:name=".Checkpoint_Activity"
+            android:label="Checkpoint Activity"/>
+        <activity
+            android:name=".CreationWayActivityCheckpoint"
+            android:label="CreationWayActivityCheckpoint"/>
+        <activity
+            android:name=".CreationWayActivityStepName"
+            android:label="Nom du way"/>
+        <activity
+            android:name=".LoginActivity"
+            android:label="Connexion">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AccueilActivity" />
-        <activity android:name=".InscriptionActivity" />
-        <activity android:name=".ProfilActivity" />
-        <activity android:name=".AllMapActivity" />
-        <activity android:name=".ProfilModifWayActivity" />
-        <activity android:name=".CheckPointModifActivity"></activity>
+        <activity
+            android:name=".AccueilActivity"
+            android:label="Acceuil"/>
+        <activity
+            android:name=".InscriptionActivity"
+            android:label="Inscription"/>
+        <activity
+            android:name=".ProfilActivity"
+            android:label="Profil"/>
+        <activity
+            android:name=".AllMapActivity"
+            android:label="Tous les ways"/>
+        <activity
+            android:name=".ProfilModifWayActivity"
+            android:label="Modification du profil"/>
+        <activity
+            android:name=".CheckPointModifActivity"
+            android:label="Modification du point d'intérêt"></activity>
     </application>
 
 </manifest>

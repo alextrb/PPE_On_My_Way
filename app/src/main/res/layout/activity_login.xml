@@ -178,14 +178,12 @@
             android:fontFamily="cursive"
             android:textSize="30dp"
             android:textAlignment="center"
-            android:text="Connection"
+            android:text="Connexion"
             android:onClick="validationLogin"
             android:id="@+id/validationButton"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="match_parent" />
-
-
 
     </LinearLayout>
 

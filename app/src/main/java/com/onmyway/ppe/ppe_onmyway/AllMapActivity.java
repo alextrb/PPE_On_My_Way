@@ -135,7 +135,7 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
             System.out.println("current not null");
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             // Zoom on the current position of the user
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
             mMap.animateCamera(cameraUpdate);
         }
         System.out.println("BEFORE SELECTION DATABASE");
