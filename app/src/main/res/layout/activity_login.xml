@@ -47,19 +47,19 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:textColor="@color/colorOrange3"
-            android:fontFamily="cursive"
-            android:textSize="50dp"
-            android:textAlignment="center"
-            android:text="Login:"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:text="Login:"
+            android:textAlignment="center"
+            android:textColor="@color/colorOrange3"
+            android:textSize="50dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
     </LinearLayout>
 
@@ -78,13 +78,14 @@
             android:layout_weight="1"/>
 
         <EditText
-            android:backgroundTint="@color/colorOrange3"
             android:id="@+id/loginEditText"
-            android:textSize="20dp"
-            android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorOrange3"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -138,13 +139,14 @@
             android:layout_weight="1"/>
 
         <EditText
-            android:backgroundTint="@color/colorOrange3"
             android:id="@+id/passwordEditText"
-            android:textSize="20dp"
-            android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorOrange3"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <TextView
             android:layout_width="wrap_content"

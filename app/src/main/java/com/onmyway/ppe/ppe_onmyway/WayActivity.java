@@ -52,9 +52,9 @@ import java.util.List;
 
 public class WayActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private String[] ids = new String[3];
-    private String[] lats = new String[3];
-    private String[] lngs = new String[3];
+    private String[] ids;
+    private String[] lats;
+    private String[] lngs;
 
     //DATABASE SQLLITE
     protected MyOpenDatabase myOpenDatabase = null;
@@ -94,6 +94,7 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
     private List<CheckPoint> listObjectCheckpoint;
 
     private int wayID=0;
+    private String wayName = "noName";
 
     private int checkpointID = 0;
 
@@ -141,6 +142,7 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
         Bundle bd = intent.getExtras();
         if(bd!=null){
             wayID = intent.getIntExtra("ID_WAY",0);
+            wayName = intent.getStringExtra("NAME_WAY");
             currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
             // add a condition in the case that we were in the activity of description of the activity
             if(currentIdUser == -1){
@@ -192,13 +194,10 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
         myDB = myOpenDatabase.getReadableDatabase();
 
         // To retrieve the itineraire of the way
-        System.out.println("query  itineraire");
         String nameWay = way.getNameway();
 
         Cursor result2 = myDB.rawQuery("SELECT * FROM itineraire WHERE nameway = '"+nameWay+"'",null);
         result2.moveToFirst();
-
-        System.out.println("query  itineraire2");
 
         while(!result2.isAfterLast()){
             LatLng latLng = new LatLng(Double.parseDouble(result2.getString(2)),Double.parseDouble(result2.getString(3)));
@@ -211,7 +210,6 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
         System.out.println("query for checkpoints");
         // To retrieve the position of markers
         Cursor result3 = myDB.rawQuery("SELECT * FROM checkpoint WHERE nameway = '"+nameWay+"'",null);
-        System.out.println("query for checkpoints2");
         result3.moveToFirst();
         while(!result3.isAfterLast()){
 
@@ -220,15 +218,11 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
             listObjectCheckpoint.add(checkPoint);
 
             // for the map
-            System.out.println("query for checkpoints4");
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
             LatLng latLng = new LatLng(Double.parseDouble(result3.getString(2)),Double.parseDouble(result3.getString(3)));
-            System.out.println("query for checkpoints6");
             markerOptions.position(latLng);
-            System.out.println("query for checkpoints7");
             checkPointList.add(markerOptions);
-            System.out.println("query for checkpoints8");
             result3.moveToNext();
         }
         System.out.println(" fin query for checkpoints");
@@ -237,7 +231,6 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
         myDB.close();
 
         // modification of the textView
-
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -296,12 +289,7 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
                 ).color(Color.argb(255,255,153,51))
                         .width(15));
             }
-
         }
-
-
-
-
     }
 
 
@@ -503,11 +491,14 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
     public void addWayToExternalDataBase(View view){
 
         myDB = myOpenDatabase.getReadableDatabase();
-        Cursor wayCoordonnees = myDB.rawQuery("SELECT latitude,longitude FROM itineraire",null);
+        Cursor wayCoordonnees = myDB.rawQuery("SELECT latitude,longitude FROM itineraire WHERE nameway = '" + wayName + "'",null);
+
+        ids = new String[wayCoordonnees.getCount()];
+        lats = new String[wayCoordonnees.getCount()];
+        lngs = new String[wayCoordonnees.getCount()];
 
         int i = 0;
         wayCoordonnees.moveToFirst();
-        Log.d("cursor", String.valueOf(wayCoordonnees.getColumnCount()));
         while (!wayCoordonnees.isAfterLast()) {
           //  ids[i] = String.valueOf(wayCoordonnees.getInt(0));
           //  Log.d("ids",String.valueOf(wayCoordonnees.getInt(0)));

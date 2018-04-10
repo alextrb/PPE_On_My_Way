@@ -168,6 +168,7 @@ public class ListWayActivity extends AppCompatActivity {
         //wayList
         intent.putExtra("ID_WAY",wayList.get(position).getId());
         intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        intent.putExtra("NAME_WAY", wayList.get(position).getNameway());
         startActivity(intent);
 
     }
