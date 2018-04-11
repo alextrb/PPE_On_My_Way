@@ -78,6 +78,8 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
 
     private int checkpointID = 0;
 
+    public String nameWay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,7 +161,7 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
         myDB = myOpenDatabase.getReadableDatabase();
 
         // To retrieve the itineraire of the way
-        String nameWay = way.getNameway();
+        nameWay = way.getNameway();
         System.out.println("NAME OF THE CHECKPOINT "+ nameWay);
 
         Cursor result2 = myDB.rawQuery("SELECT * FROM itineraire WHERE nameway = '"+nameWay+"'",null);
@@ -241,7 +243,7 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
         //recentrage to the way
         LatLng latLng = new LatLng(latLngList.get(2).latitude, latLngList.get(2).longitude);
         // Zoom on the current position of the user
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         mMap.animateCamera(cameraUpdate);
 
         if(latLngList.size() >= 2){
@@ -305,8 +307,29 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 400, 1, this);
 
+      /*  mListener = getApplicationContext();
+        myOpenDatabase = new MyOpenDatabase(mListener);
+        myDB = myOpenDatabase.getReadableDatabase();
+        Cursor result3 = myDB.rawQuery("SELECT * FROM checkpoint WHERE nameway = '"+nameWay+"'",null);
+        result3.moveToFirst();
+        while(!result3.isAfterLast()){
+            System.out.print("nbcheckpoint !!!!");
+            System.out.print("result3.getString(4) :" + result3.getString(4));
+            System.out.print("result3.getString(5) :" + result3.getString(5));
+            System.out.print("result3.getInt(0) : "+ result3.getInt(0));
+
+            //for the table object
+            CheckPoint checkPoint = new CheckPoint(result3.getString(4),result3.getString(5), result3.getInt(0));
+            listObjectCheckpoint.add(checkPoint);
+
+            result3.moveToNext();
+        }
+        System.out.println(" fin query for checkpoints");
+        System.out.println("SIZE  : "+ listObjectCheckpoint);
+
+        result3.close();
+        myDB.close(); */
     }
 
     @Override

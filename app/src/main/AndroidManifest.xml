@@ -52,7 +52,8 @@
             android:label="Ways de la communauté" />
         <activity
             android:name=".WayActivity"
-            android:label="Détails du way" />
+            android:label="Détails du way"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".Checkpoint_Activity"
             android:label="Checkpoint Activity" />
@@ -85,13 +86,15 @@
             android:label="Tous les ways" />
         <activity
             android:name=".ProfilModifWayActivity"
-            android:label="Modification du profil" />
+            android:label="Modification du profil"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".CheckPointModifActivity"
-            android:label="Modification du point d'intérêt" />
-        <activity android:name=".NoteWayActivity">
+            android:label="Modification du point d'intérêt"
+            android:launchMode="singleTop"/>
 
-
+        <activity android:name=".NoteWayActivity"
+            android:label="Noter le way">
         </activity>
     </application>
 

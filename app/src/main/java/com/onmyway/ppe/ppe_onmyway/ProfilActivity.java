@@ -225,4 +225,8 @@ public class ProfilActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
