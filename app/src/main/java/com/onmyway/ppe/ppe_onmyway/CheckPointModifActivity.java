@@ -290,7 +290,7 @@ public class CheckPointModifActivity extends AppCompatActivity implements Locati
         cv.put("description", TVdescription.getText().toString());
         myDB.update("checkpoint", cv, "id="+IDcheckpoint, null);
 
-        Intent intent = new Intent(this, ProfilModifWayActivity.class);
+        Intent intent = new Intent(this, CheckPointModifActivity.class);
         //wayList
         intent.putExtra("ID_CHECKPOINT",IDcheckpoint);
         intent.putExtra("CURRENT_ID_USER",currentIdUser);
