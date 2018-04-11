@@ -150,7 +150,7 @@ public class CreationWayActivityStep3 extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("nameway",name_way);
         values.put("noteway",0);
-        values.put("iduser",1);
+        values.put("iduser",currentIdUser);
         myDB.insert("way",null,values);
 
         System.out.println("sql 1");
