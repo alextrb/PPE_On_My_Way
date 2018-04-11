@@ -63,6 +63,7 @@ public class ProfilActivity extends AppCompatActivity {
 
         final Intent intent = getIntent();
         Bundle bd = intent.getExtras();
+        currentIdUser = -1;
         if(bd!=null){
             currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
             // add a condition in the case that we were in the activity of description of the activity
@@ -75,6 +76,11 @@ public class ProfilActivity extends AppCompatActivity {
             System.out.println("error in the retrieving of the intent");
             return ;
         }
+        if(currentIdUser == -1){
+            Intent intent2 = new Intent(this,LoginActivity.class);
+            startActivity(intent2);
+        }
+        System.out.println( "ID CURRENT USER : " + currentIdUser);
 
         String username="";
         String email="";

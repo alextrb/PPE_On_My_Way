@@ -31,6 +31,7 @@ public class AccueilActivity extends AppCompatActivity {
         // retrieve the intent and redirect if we don't have it to the login!
         final Intent intent = getIntent();
         Bundle bd = intent.getExtras();
+        currentIdUser = -1;
         if(bd!=null){
             currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
             // add a condition in the case that we were in the activity of description of the activity
@@ -42,6 +43,10 @@ public class AccueilActivity extends AppCompatActivity {
         }else{
             System.out.println("error in the retrieving of the intent");
             return ;
+        }
+        if(currentIdUser == -1){
+            Intent intent2 = new Intent(this, LoginActivity.class);
+            startActivity(intent2);
         }
 
     }

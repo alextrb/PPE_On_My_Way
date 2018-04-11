@@ -100,7 +100,7 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
         listCheckPoint.setAdapter(customAdapter);
 
         final Intent intent = getIntent();
-
+        currentIdUser = -1;
         Bundle bd = intent.getExtras();
         if(bd!=null){
             wayID = intent.getIntExtra("ID_WAY",0);
@@ -116,6 +116,11 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
             return ;
         }
 
+        if(currentIdUser == -1){
+            Intent intent2 = new Intent(this,LoginActivity.class);
+            startActivity(intent2);
+        }
+        System.out.println( "ID CURRENT USER : " + currentIdUser);
         myDB = myOpenDatabase.getReadableDatabase();
 
         //to retrieve the informatio of the way
@@ -367,6 +372,7 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
         //wayList
         intent.putExtra("ID_CHECKPOINT",listObjectCheckpoint.get(position).getId());
         intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        intent.putExtra("ID_WAY",wayID);
         startActivity(intent);
 
     }

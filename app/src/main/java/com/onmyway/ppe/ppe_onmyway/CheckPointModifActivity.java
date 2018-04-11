@@ -66,6 +66,8 @@ public class CheckPointModifActivity extends AppCompatActivity implements Locati
 
     private int currentIdUser;
 
+    private int wayID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +118,7 @@ public class CheckPointModifActivity extends AppCompatActivity implements Locati
         if(bd!=null){
             IDcheckpoint = intent.getIntExtra("ID_CHECKPOINT",0);
             currentIdUser = intent.getIntExtra("CURRENT_ID_USER",-1);
+            wayID = intent.getIntExtra("ID_WAY",0);
             // add a condition in the case that we were in the activity of description of the activity
             if(currentIdUser == -1){
                 Intent intent2 = new Intent(this,LoginActivity.class);
@@ -290,10 +293,11 @@ public class CheckPointModifActivity extends AppCompatActivity implements Locati
         cv.put("description", TVdescription.getText().toString());
         myDB.update("checkpoint", cv, "id="+IDcheckpoint, null);
 
-        Intent intent = new Intent(this, CheckPointModifActivity.class);
+        Intent intent = new Intent(this, ProfilModifWayActivity.class);
         //wayList
         intent.putExtra("ID_CHECKPOINT",IDcheckpoint);
         intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        intent.putExtra("ID_WAY",wayID);
         startActivity(intent);
 
     }
