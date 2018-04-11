@@ -259,7 +259,7 @@ public class CheckPointModifActivity extends AppCompatActivity implements Locati
         mMap = googleMap;
 
         // Zoom on the current position of the user
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         mMap.animateCamera(cameraUpdate);
 
         if(latLngList.size() >= 2){
