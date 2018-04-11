@@ -15,14 +15,15 @@
         <ListView
             android:id="@+id/listViewWay"
             android:layout_width="match_parent"
-            android:layout_height="500dp">
+            android:layout_height="450dp">
 
         </ListView>
 
 
         <TextView
-            android:layout_width="220dp"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="bottom"
             android:layout_marginLeft="85dp"
             android:layout_marginRight="90dp"
