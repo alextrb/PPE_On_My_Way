@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class ListWayActivity extends AppCompatActivity {
     ListView listViewWay;
     TextView textViewNameWay;
     TextView textViewNameUser;
+    ImageView noteWayList;
 
     private int currentIdUser;
 
@@ -150,9 +152,31 @@ public class ListWayActivity extends AppCompatActivity {
 
             textViewNameWay =(TextView) convertView.findViewById(R.id.textViewNameWay);
             textViewNameUser = (TextView) convertView.findViewById(R.id.textViewNameUser);
+            noteWayList = (ImageView) convertView.findViewById(R.id.noteWayList);
+
 
             textViewNameWay.setText(wayList.get(position).getNameway());
             System.out.println("wayliqt" + wayList.get(position).getNameway());
+
+
+            if(wayList.get(position).getNoteway()==1){
+                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(R.drawable.unetoiles);
+            }else if(wayList.get(position).getNoteway()==2){
+                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(R.drawable.deuxetoiles);
+                noteWayList.setImageResource(0);
+            }else if(wayList.get(position).getNoteway()==3){
+                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(R.drawable.troisetoiles);
+                noteWayList.setImageResource(0);
+            }else if(wayList.get(position).getNoteway()==4){
+                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(R.drawable.quatreetoiles);
+            }else if(wayList.get(position).getNoteway()==5){
+                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(R.drawable.cinqetoiles);
+            }
 
             String username="";
             for(int i = 0; i<usersList.size();i++ ){

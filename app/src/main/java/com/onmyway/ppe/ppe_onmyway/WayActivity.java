@@ -162,14 +162,19 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
 
         //modification of the note
         if(way.getNoteway()==1){
+            imageViewNote.setImageResource(0);
             imageViewNote.setImageResource(R.drawable.unetoiles);
         }else if(way.getNoteway()==2){
+            imageViewNote.setImageResource(0);
             imageViewNote.setImageResource(R.drawable.deuxetoiles);
         }else if(way.getNoteway()==3){
+            imageViewNote.setImageResource(0);
             imageViewNote.setImageResource(R.drawable.troisetoiles);
         }else if(way.getNoteway()==4){
+            imageViewNote.setImageResource(0);
             imageViewNote.setImageResource(R.drawable.quatreetoiles);
         }else if(way.getNoteway()==5){
+            imageViewNote.setImageResource(0);
             imageViewNote.setImageResource(R.drawable.cinqetoiles);
         }
 
@@ -334,6 +339,18 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
     private void startApp(){
         Intent intent = new Intent(this, WayActivity.class);
         startActivity(intent);
+    }
+
+    public void redirectionNote(View view) {
+
+        Intent intent = new Intent(this, NoteWayActivity.class);
+        //wayList
+        intent.putExtra("ID_WAY",wayID);
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        intent.putExtra("NAME_WAY", wayName);
+        startActivity(intent);
+
+
     }
 
 
