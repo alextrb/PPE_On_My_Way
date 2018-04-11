@@ -255,7 +255,7 @@ public class WayActivity extends AppCompatActivity implements LocationListener, 
         //mMap.getMaxZoomLevel();
 
         //recentrage to the way
-        LatLng latLng = new LatLng(latLngList.get(2).latitude, latLngList.get(2).longitude);
+        LatLng latLng = new LatLng(latLngList.get(0).latitude, latLngList.get(0).longitude);
         // Zoom on the current position of the user
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
         mMap.animateCamera(cameraUpdate);
