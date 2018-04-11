@@ -256,6 +256,23 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
                         System.out.println("2");
                         if (latfinal == latfinal2 && lngfinal == lngfinal2) {
                             System.out.print("way trouvé! ");
+                            String nameWay = listWay.get(i).getNameway();
+
+                            int wayID = -1;
+                            Cursor result2 = myDB.rawQuery("SELECT * FROM way WHERE nameway = '"+nameWay+"'",null);
+                            result2.moveToFirst();
+
+                            System.out.println("query  itineraire2");
+
+                            while(!result2.isAfterLast()){
+                                wayID = result2.getInt(0);
+                                result2.moveToNext();
+                            }
+
+                            result2.close();
+                            // redirection to the wayActivity with the currentIdUser and WayID
+                            System.out.print("REDIRECTION");
+                            redirection(wayID);
                         }
                         System.out.println("3");
 
