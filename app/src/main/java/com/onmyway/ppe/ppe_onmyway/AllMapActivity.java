@@ -240,7 +240,6 @@ public class AllMapActivity extends AppCompatActivity implements LocationListene
 
                 System.out.println("yo1" + latfinal);
                 System.out.println("yo2 " +lngfinal);
-                System.out.println("coordinate latitude " + listWay.get(1).getListCoord().get(1).latitude);
 
                 for(int i=0; i<listWay.size();i++) {
 
