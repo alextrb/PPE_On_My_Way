@@ -7,9 +7,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfilActivity extends AppCompatActivity {
+
+
+    CustomAdapter customAdapter;
 
     private TextView nameUser;
     private TextView emailUser;
@@ -23,6 +32,13 @@ public class ProfilActivity extends AppCompatActivity {
     protected MyOpenDatabase myOpenDatabase = null;
     protected SQLiteDatabase myDB = null;
 
+    private ListView listViewWay;
+    TextView textViewNameWay;
+    TextView textViewNameUser;
+
+    private List<Way> wayList;
+    private List<Users> usersList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +47,15 @@ public class ProfilActivity extends AppCompatActivity {
         nameUser = (TextView) findViewById(R.id.nameUser);
         emailUser = (TextView) findViewById(R.id.emailUser);
         newWay = (TextView) findViewById(R.id.newWay);
+        listViewWay = (ListView) findViewById(R.id.listViewWay);
+        textViewNameWay = (TextView) findViewById(R.id.textViewNameWay);
+        textViewNameUser = (TextView) findViewById(R.id.textViewNameUser);
+
+        wayList = new ArrayList<>();
+        usersList =new ArrayList<>();
+
+        customAdapter = new CustomAdapter();
+        listViewWay.setAdapter(customAdapter);
 
         //SQL LITE
         mListener = getApplicationContext();
@@ -71,7 +96,39 @@ public class ProfilActivity extends AppCompatActivity {
         nameUser.setText(username);
         emailUser.setText(email);
 
+        String [] columns2 = {"id","nameway","noteway","iduser"};
+        Cursor result2 = myDB.query("way",columns2,null,null,null,null,null);
 
+        result2.moveToFirst();
+
+        while(!result2.isAfterLast()){
+
+            if(result2.getInt(3)== currentIdUser){
+                Way way = new Way(result2.getInt(0), result2.getString(1),result2.getInt(2), result2.getInt(3));
+                wayList.add(way);
+            }
+
+            result2.moveToNext();
+        }
+
+        result2.close();
+
+        String [] columns3 = {"id","username","mail"};
+        Cursor result3 = myDB.query("users",columns3,null,null,null,null,null);
+
+        System.out.println("9");
+        result3.moveToFirst();
+
+        while(!result3.isAfterLast()){
+            System.out.println("result2.getInt(0)"+ result3.getInt(0));
+            Users users = new Users(result3.getInt(0),result3.getString(1),result3.getString(2));
+            usersList.add(users);
+            result3.moveToNext();
+        }
+        System.out.println("10");
+        result3.close();
+
+        customAdapter.notifyDataSetChanged();
     }
 
 
@@ -84,6 +141,59 @@ public class ProfilActivity extends AppCompatActivity {
 
     }
 
+    class CustomAdapter extends BaseAdapter {
 
+
+        @Override
+        public int getCount() {
+            return wayList.size(); //matchList.size();
+
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            redirection(position);
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            System.out.println("in the getView");
+            convertView = getLayoutInflater().inflate(R.layout.custom_layout_listway, null);
+
+            textViewNameWay =(TextView) convertView.findViewById(R.id.textViewNameWay);
+            textViewNameUser = (TextView) convertView.findViewById(R.id.textViewNameUser);
+
+            textViewNameWay.setText(wayList.get(position).getNameway());
+            System.out.println("wayliqt" + wayList.get(position).getNameway());
+
+            String username="";
+            for(int i = 0; i<usersList.size();i++ ){
+                System.out.println("userList" + usersList.get(i).getId());
+                if(usersList.get(i).getId() == wayList.get(position).getIduser()){
+                    username = usersList.get(i).getUsername();
+                }
+            }
+            textViewNameUser.setText(username);
+
+            return convertView;
+        }
+    }
+
+    public void redirection(int position){
+
+        Intent intent = new Intent(this, ProfilModifWayActivity.class);
+        //wayList
+        intent.putExtra("ID_WAY",wayList.get(position).getId());
+        intent.putExtra("CURRENT_ID_USER",currentIdUser);
+        intent.putExtra("NAME_WAY", wayList.get(position).getNameway());
+        startActivity(intent);
+
+    }
 
 }

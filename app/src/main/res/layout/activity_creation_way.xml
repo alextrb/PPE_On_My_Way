@@ -32,7 +32,7 @@
     <include
         layout="@layout/activity_maps"
         android:layout_width="match_parent"
-        android:layout_height="415dp" />
+        android:layout_height="400dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

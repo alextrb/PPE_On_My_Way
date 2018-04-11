@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.onmyway.ppe.ppe_onmyway.CheckPointModifActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
+
+        <EditText
+            android:id="@+id/textViewNameCheckpoint"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/activity_maps"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_weight="4" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <EditText
+            android:textSize="20dp"
+            android:id="@+id/TVdescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="0.1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="4" />
+
+            <ImageView
+                android:textAlignment="center"
+                android:background="@drawable/picto"
+                android:layout_weight="1.2"
+                android:layout_width="2dp"
+                android:layout_height="80dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="4"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2">
+
+        <Button
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:id="@+id/modification"
+            android:text="modifier"
+            android:onClick="modificationChekpoint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>

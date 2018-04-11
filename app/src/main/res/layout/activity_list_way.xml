@@ -22,9 +22,13 @@
         <TextView
             android:onClick="mapRedirection"
             android:text="Map"
-            android:textColor="@color/colorOrange4"
+            android:paddingTop="10dp"
+            android:background="@drawable/buttons"
+            android:textColor="@color/colorOrange5"
             android:textSize="22dp"
             android:textAlignment="center"
+            android:layout_marginRight="90dp"
+            android:layout_marginLeft="90dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

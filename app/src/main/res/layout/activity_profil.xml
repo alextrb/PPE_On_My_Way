@@ -10,13 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
 
         <ImageView
             android:layout_weight="1"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
+            android:layout_width="110dp"
+            android:layout_height="130dp"
             android:background="@drawable/profilphoto"/>
 
         <LinearLayout
@@ -52,24 +53,30 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal">
-
         <TextView
+            android:paddingTop="5dp"
             android:fontFamily="serif"
             android:textColor="@color/colorOrange3"
-            android:layout_marginTop="20dp"
-            android:textAlignment="center"
             android:textSize="20dp"
             android:id="@+id/newWay"
-            android:text="Nouveau Way"
-            android:onClick="createNewWay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <!-- possibilité de modification des données personnel de l'utilisateur -->
-
+            android:text="Vos Ways :"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
-    
+
+    <ListView
+        android:id="@+id/listViewWay"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+    </ListView>
+
+
+
+
+
 
 </LinearLayout>

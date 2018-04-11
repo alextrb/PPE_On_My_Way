@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.onmyway.ppe.ppe_onmyway.WayActivity"
+    tools:context="com.onmyway.ppe.ppe_onmyway.ProfilModifWayActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -57,12 +57,22 @@
 
     </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="1"
-        android:onClick="addWayToExternalDataBase"
-        android:text="Suivre" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Supprimer"
+            android:onClick="suppressionWay"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"/>
+
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
