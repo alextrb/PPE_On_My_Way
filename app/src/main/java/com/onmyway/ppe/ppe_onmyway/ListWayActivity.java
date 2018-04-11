@@ -160,21 +160,22 @@ public class ListWayActivity extends AppCompatActivity {
 
 
             if(wayList.get(position).getNoteway()==1){
-                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(android.R.color.transparent);
                 noteWayList.setImageResource(R.drawable.unetoiles);
+            }else if(wayList.get(position).getNoteway()==0){
+                noteWayList.setImageResource(android.R.color.transparent);
+                noteWayList.setImageResource(R.drawable.zeroetoiles);
             }else if(wayList.get(position).getNoteway()==2){
-                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(android.R.color.transparent);
                 noteWayList.setImageResource(R.drawable.deuxetoiles);
-                noteWayList.setImageResource(0);
             }else if(wayList.get(position).getNoteway()==3){
-                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(android.R.color.transparent);
                 noteWayList.setImageResource(R.drawable.troisetoiles);
-                noteWayList.setImageResource(0);
             }else if(wayList.get(position).getNoteway()==4){
-                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(android.R.color.transparent);
                 noteWayList.setImageResource(R.drawable.quatreetoiles);
             }else if(wayList.get(position).getNoteway()==5){
-                noteWayList.setImageResource(0);
+                noteWayList.setImageResource(android.R.color.transparent);
                 noteWayList.setImageResource(R.drawable.cinqetoiles);
             }
 
