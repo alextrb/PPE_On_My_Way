@@ -1,0 +1,304 @@
+<html>
+<head>
+<title>MapsActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MapsActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.onmyway.ppe.ppe_onmyway; 
+ 
+</span><span class="s0">import </span><span class="s1">android.Manifest; 
+</span><span class="s0">import </span><span class="s1">android.app.DownloadManager; 
+</span><span class="s0">import </span><span class="s1">android.app.PendingIntent; 
+</span><span class="s0">import </span><span class="s1">android.content.BroadcastReceiver; 
+</span><span class="s0">import </span><span class="s1">android.content.Context; 
+</span><span class="s0">import </span><span class="s1">android.content.Intent; 
+</span><span class="s0">import </span><span class="s1">android.content.pm.PackageManager; 
+</span><span class="s0">import </span><span class="s1">android.location.Location; 
+</span><span class="s0">import </span><span class="s1">android.location.LocationListener; 
+</span><span class="s0">import </span><span class="s1">android.location.LocationManager; 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.ActivityCompat; 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.FragmentActivity; 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.ThemedSpinnerAdapter; 
+</span><span class="s0">import </span><span class="s1">android.util.Log; 
+</span><span class="s0">import </span><span class="s1">android.view.View; 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast; 
+ 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.CameraUpdate; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.CameraUpdateFactory; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.GoogleMap; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.OnMapReadyCallback; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.SupportMapFragment; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.BitmapDescriptorFactory; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.LatLng; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.MarkerOptions; 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.PolylineOptions; 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList; 
+</span><span class="s0">import </span><span class="s1">java.util.List; 
+ 
+</span><span class="s0">public class </span><span class="s1">MapsActivity </span><span class="s0">extends </span><span class="s1">FragmentActivity </span><span class="s0">implements </span><span class="s1">LocationListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback  { 
+ 
+    </span><span class="s0">private </span><span class="s1">View mLayout; 
+ 
+    </span><span class="s2">//map parameter</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">GoogleMap mMap; 
+ 
+    </span><span class="s2">//current Location of the user</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Location currentLocation; 
+    </span><span class="s2">//LocationManager</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">LocationManager locationManager; 
+ 
+    </span><span class="s2">//successive position put by the user</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">List&lt;MarkerOptions&gt; checkPoint; 
+ 
+    </span><span class="s2">// asking for the localisation of the user</span><span class="s1"> 
+    </span><span class="s0">private static final int </span><span class="s1">LOCATION_REQUEST = </span><span class="s3">500</span><span class="s1">; 
+ 
+    </span><span class="s2">//List of successive checkPoint</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">List&lt;LatLng&gt; checkPointList; 
+ 
+    </span><span class="s2">//previous and new point</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">LatLng origin; 
+    </span><span class="s0">private </span><span class="s1">LatLng destination; 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_maps); 
+        </span><span class="s2">// Obtain the SupportMapFragment and get notified when the map is ready to be used.</span><span class="s1"> 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager() 
+                .findFragmentById(R.id.map); 
+        mapFragment.getMapAsync(</span><span class="s0">this</span><span class="s1">); 
+ 
+        </span><span class="s2">//Initialisation of the checkPoint table and of the chekpointList</span><span class="s1"> 
+        checkPoint = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+        checkPointList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;(); 
+ 
+        </span><span class="s2">// initialisation of the LocationManager</span><span class="s1"> 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE); 
+ 
+        </span><span class="s0">if </span><span class="s1">(ActivityCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { 
+            ActivityCompat.requestPermissions(</span><span class="s0">this</span><span class="s1">, </span><span class="s0">new </span><span class="s1">String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST); 
+            </span><span class="s0">return</span><span class="s1">; 
+        } 
+ 
+        currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); 
+ 
+        </span><span class="s2">//initialisation of the update</span><span class="s1"> 
+        Intent intent = </span><span class="s0">new </span><span class="s1">Intent(</span><span class="s0">this</span><span class="s1">, GPSUpdateReceiver.</span><span class="s0">class</span><span class="s1">); 
+        PendingIntent pending = PendingIntent.getBroadcast(</span><span class="s0">this</span><span class="s1">, </span><span class="s3">0</span><span class="s1">, intent, PendingIntent.FLAG_UPDATE_CURRENT); 
+ 
+ 
+        </span><span class="s2">//initialisation of the map</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(mapFragment != </span><span class="s0">null</span><span class="s1">) { 
+            System.out.println(</span><span class="s4">&quot;mapFrag not null&quot;</span><span class="s1">); 
+            mapFragment.getMapAsync(</span><span class="s0">new </span><span class="s1">OnMapReadyCallback() { 
+                @Override 
+                </span><span class="s0">public void </span><span class="s1">onMapReady(GoogleMap map) { 
+                    mMap = map; 
+                } 
+            }); 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            Toast.makeText(</span><span class="s0">this</span><span class="s1">, </span><span class="s4">&quot;Error - Map Fragment was null!!&quot;</span><span class="s1">, Toast.LENGTH_SHORT).show(); 
+        } 
+ 
+    } 
+ 
+    </span><span class="s0">public class </span><span class="s1">GPSUpdateReceiver </span><span class="s0">extends </span><span class="s1">BroadcastReceiver { 
+        @Override 
+        </span><span class="s0">public void </span><span class="s1">onReceive(Context context, Intent intent) { 
+            Location location = (Location)intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED); 
+        } 
+    } 
+ 
+ 
+ 
+    </span><span class="s2">/** 
+     * Manipulates the map once available. 
+     * This callback is triggered when the map is ready to be used. 
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, 
+     * we just add a marker near Sydney, Australia. 
+     * If Google Play services is not installed on the device, the user will be prompted to install 
+     * it inside the SupportMapFragment. This method will only be triggered once the user has 
+     * installed Google Play services and returned to the app. 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onMapReady(GoogleMap googleMap) { 
+        mMap = googleMap; 
+ 
+        </span><span class="s2">// enable the zoom functionality</span><span class="s1"> 
+        mMap.getUiSettings().setZoomControlsEnabled(</span><span class="s0">true</span><span class="s1">); 
+        mMap.getMaxZoomLevel(); 
+ 
+        </span><span class="s2">//for the initialisation of the map</span><span class="s1"> 
+        </span><span class="s0">if</span><span class="s1">(currentLocation !=</span><span class="s0">null</span><span class="s1">){ 
+            LatLng latLng = </span><span class="s0">new </span><span class="s1">LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()); 
+            </span><span class="s2">// Zoom on the current position of the user</span><span class="s1"> 
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, </span><span class="s3">17</span><span class="s1">); 
+            mMap.animateCamera(cameraUpdate); 
+        } 
+ 
+ 
+        </span><span class="s2">// Current location</span><span class="s1"> 
+        LatLng currentLatLong = </span><span class="s0">new </span><span class="s1">LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()); 
+        </span><span class="s2">//MarkerOptions markerUserPosition = new MarkerOptions();</span><span class="s1"> 
+        </span><span class="s2">//markerUserPosition.position(currentLatLong);</span><span class="s1"> 
+        </span><span class="s2">//marker that we can modify with the profil picture maybe</span><span class="s1"> 
+        </span><span class="s2">//markerUserPosition.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));</span><span class="s1"> 
+        </span><span class="s2">//mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLong));</span><span class="s1"> 
+        </span><span class="s2">//mMap.addMarker(markerUserPosition);</span><span class="s1"> 
+ 
+        mMap.setOnMapLongClickListener(</span><span class="s0">new </span><span class="s1">GoogleMap.OnMapLongClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onMapLongClick(LatLng latLng) { 
+ 
+                </span><span class="s2">//Reset the marker when already 2</span><span class="s1"> 
+                </span><span class="s2">//mMap.clear();</span><span class="s1"> 
+ 
+                MarkerOptions markerOptions = </span><span class="s0">new </span><span class="s1">MarkerOptions(); 
+                markerOptions.position(latLng); 
+ 
+                System.out.println(</span><span class="s4">&quot;1&quot;</span><span class="s1">); 
+ 
+                </span><span class="s0">boolean </span><span class="s1">find = </span><span class="s0">false</span><span class="s1">; 
+                </span><span class="s2">// If the List of marker is empty</span><span class="s1"> 
+                </span><span class="s0">if</span><span class="s1">(checkPoint.size()==</span><span class="s3">0</span><span class="s1">){ 
+                    </span><span class="s2">//if tables are empty</span><span class="s1"> 
+                    checkPoint.add(markerOptions); 
+                    checkPointList.add(latLng); 
+                }</span><span class="s0">else</span><span class="s1">{ 
+                    </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i=</span><span class="s3">0</span><span class="s1">; i &lt; checkPoint.size(); i++){ 
+                        System.out.println(</span><span class="s4">&quot;2&quot;</span><span class="s1">); 
+                        </span><span class="s0">if </span><span class="s1">(checkPoint.get(i).getPosition().equals(latLng)){ 
+                            System.out.println(</span><span class="s4">&quot;click on a exiting coord&quot;</span><span class="s1">); 
+                            checkPoint.remove(i); 
+                            find = </span><span class="s0">true</span><span class="s1">; 
+                        } 
+                    } 
+                    </span><span class="s0">if </span><span class="s1">(find==</span><span class="s0">false</span><span class="s1">){ 
+ 
+                        </span><span class="s2">// add the position selected to the List of marker</span><span class="s1"> 
+                        checkPoint.add(markerOptions); 
+                        </span><span class="s2">//add the chekPoint to the list of checkPoint</span><span class="s1"> 
+                        checkPointList.add(latLng); 
+ 
+                    } 
+                } 
+ 
+                System.out.println(</span><span class="s4">&quot;3&quot;</span><span class="s1">); 
+ 
+                </span><span class="s2">// it put a red marker on the map</span><span class="s1"> 
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)); 
+ 
+                </span><span class="s2">// We remove all previous maker and we add the new one</span><span class="s1"> 
+                mMap.clear(); 
+                </span><span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s1">; i&lt;checkPoint.size();i++){ 
+                    mMap.addMarker(checkPoint.get(i)); 
+                } 
+ 
+                System.out.println(</span><span class="s4">&quot;4&quot;</span><span class="s1">); 
+ 
+                 </span><span class="s0">if</span><span class="s1">(checkPointList.size() &gt;= </span><span class="s3">2</span><span class="s1">){ 
+                     System.out.println(</span><span class="s4">&quot;5&quot;</span><span class="s1">); 
+                     </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">1</span><span class="s1">; i &lt; checkPointList.size(); i++){ 
+                         origin = checkPointList.get(i-</span><span class="s3">1</span><span class="s1">); 
+                         destination = checkPointList.get(i); 
+                         mMap.addPolyline(</span><span class="s0">new </span><span class="s1">PolylineOptions().add( 
+                                 origin, 
+                                 destination 
+                         )); 
+                     } 
+ 
+                } 
+                System.out.println(</span><span class="s4">&quot;6&quot;</span><span class="s1">); 
+ 
+                </span><span class="s2">//add to the list checkPointList</span><span class="s1"> 
+ 
+            } 
+        }); 
+        </span><span class="s2">//markerUserPosition.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));</span><span class="s1"> 
+ 
+ 
+        } 
+ 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onLocationChanged(Location location) { 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onStatusChanged(String provider, </span><span class="s0">int </span><span class="s1">status, Bundle extras) { 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onProviderEnabled(String provider) { 
+        Toast.makeText(</span><span class="s0">this</span><span class="s1">, </span><span class="s4">&quot;Enable new provider&quot; </span><span class="s1">+ provider, Toast.LENGTH_SHORT).show(); 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onProviderDisabled(String provider) { 
+        Toast.makeText(</span><span class="s0">this</span><span class="s1">, </span><span class="s4">&quot;disable new provider&quot; </span><span class="s1">+ provider, Toast.LENGTH_SHORT).show(); 
+    } 
+ 
+ 
+    </span><span class="s2">// PART FOR THE PERMISSION OF THE USER</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onResume() { 
+        </span><span class="s0">super</span><span class="s1">.onResume(); 
+        </span><span class="s0">if </span><span class="s1">(ActivityCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &amp;&amp; ActivityCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { 
+            </span><span class="s2">// TODO: Consider calling</span><span class="s1"> 
+            </span><span class="s2">//    ActivityCompat#requestPermissions</span><span class="s1"> 
+            </span><span class="s2">// here to request the missing permissions, and then overriding</span><span class="s1"> 
+            </span><span class="s2">//   public void onRequestPermissionsResult(int requestCode, String[] permissions,</span><span class="s1"> 
+            </span><span class="s2">//                                          int[] grantResults)</span><span class="s1"> 
+            </span><span class="s2">// to handle the case where the user grants the permission. See the documentation</span><span class="s1"> 
+            </span><span class="s2">// for ActivityCompat#requestPermissions for more details.</span><span class="s1"> 
+            </span><span class="s0">return</span><span class="s1">; 
+        } 
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, </span><span class="s3">400</span><span class="s1">, </span><span class="s3">1</span><span class="s1">, </span><span class="s0">this</span><span class="s1">); 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onRequestPermissionsResult(</span><span class="s0">int </span><span class="s1">requestCode, String[] permission, </span><span class="s0">int</span><span class="s1">[] grantResults) { 
+ 
+        System.out.println(</span><span class="s4">&quot;DEBUT DU ON PERMISSION&quot;</span><span class="s1">); 
+        </span><span class="s0">if </span><span class="s1">(requestCode== LOCATION_REQUEST){ 
+ 
+            </span><span class="s0">if </span><span class="s1">(grantResults.length &gt; </span><span class="s3">0 </span><span class="s1">&amp;&amp; grantResults[</span><span class="s3">0</span><span class="s1">] == PackageManager.PERMISSION_GRANTED) { 
+                </span><span class="s2">// NOW WE HAVE TO LAUNCH THE ACTIVITY</span><span class="s1"> 
+                startApp(); 
+ 
+            }</span><span class="s0">else</span><span class="s1">{ 
+                Toast.makeText(getApplicationContext(), </span><span class="s4">&quot;No localisation permission&quot;</span><span class="s1">, Toast.LENGTH_LONG).show(); 
+            } 
+        } 
+ 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">startApp(){ 
+        Intent intent = </span><span class="s0">new </span><span class="s1">Intent(</span><span class="s0">this</span><span class="s1">, MapsActivity.</span><span class="s0">class</span><span class="s1">); 
+        startActivity(intent); 
+    } 
+} 
+</span></pre>
+</body>
+</html>

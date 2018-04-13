@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>HttpDataHandler.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+HttpDataHandler.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.onmyway.ppe.ppe_onmyway; 
+ 
+</span><span class="s0">import </span><span class="s1">java.io.BufferedReader; 
+</span><span class="s0">import </span><span class="s1">java.io.IOException; 
+</span><span class="s0">import </span><span class="s1">java.io.InputStreamReader; 
+</span><span class="s0">import </span><span class="s1">java.net.HttpURLConnection; 
+</span><span class="s0">import </span><span class="s1">java.net.MalformedURLException; 
+</span><span class="s0">import </span><span class="s1">java.net.ProtocolException; 
+</span><span class="s0">import </span><span class="s1">java.net.URL; 
+ 
+</span><span class="s0">import </span><span class="s1">javax.net.ssl.HttpsURLConnection; 
+ 
+</span><span class="s2">/** 
+ * Created by jeremy_pc on 01/03/2018. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s0">public class </span><span class="s1">HttpDataHandler { 
+ 
+    </span><span class="s0">public </span><span class="s1">HttpDataHandler(){ 
+ 
+ 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">String GetHTTPData(String requestURL){ 
+ 
+        URL url; 
+        String reponse = </span><span class="s3">&quot;&quot;</span><span class="s1">; 
+        </span><span class="s0">try </span><span class="s1">{ 
+            url = </span><span class="s0">new </span><span class="s1">URL(requestURL); 
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection(); 
+            connection.setRequestMethod(</span><span class="s3">&quot;GET&quot;</span><span class="s1">); 
+            connection.setReadTimeout(</span><span class="s4">15000</span><span class="s1">); 
+            connection.setConnectTimeout(</span><span class="s4">15000</span><span class="s1">); 
+            connection.setDoInput(</span><span class="s0">true</span><span class="s1">); 
+            connection.setDoOutput(</span><span class="s0">true</span><span class="s1">); 
+            connection.setRequestProperty(</span><span class="s3">&quot;Content-Type&quot;</span><span class="s1">,</span><span class="s3">&quot;application/x-www-form-urlencoded&quot;</span><span class="s1">); 
+ 
+            </span><span class="s0">int </span><span class="s1">responseCode = connection.getResponseCode(); 
+ 
+            </span><span class="s0">if</span><span class="s1">(responseCode == HttpsURLConnection.HTTP_OK){ 
+                String line; 
+ 
+                BufferedReader br = </span><span class="s0">new </span><span class="s1">BufferedReader(</span><span class="s0">new </span><span class="s1">InputStreamReader(connection.getInputStream())); 
+                </span><span class="s0">while </span><span class="s1">((line = br.readLine()) !=</span><span class="s0">null</span><span class="s1">){ 
+                    reponse+=line; 
+                } 
+            }</span><span class="s0">else</span><span class="s1">{ 
+                reponse = </span><span class="s3">&quot;&quot;</span><span class="s1">; 
+            } 
+ 
+        }</span><span class="s0">catch </span><span class="s1">(MalformedURLException e) { 
+            e.printStackTrace(); 
+        } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+            e.printStackTrace(); 
+        } 
+ 
+ 
+        </span><span class="s0">return </span><span class="s1">reponse; 
+    } 
+} 
+</span></pre>
+</body>
+</html>
