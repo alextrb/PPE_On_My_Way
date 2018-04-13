@@ -86,7 +86,7 @@
             android:label="Tous les ways" />
         <activity
             android:name=".ProfilModifWayActivity"
-            android:label="Modification du profil"
+            android:label="Modification du Way"
             android:launchMode="singleTop"/>
         <activity
             android:name=".CheckPointModifActivity"

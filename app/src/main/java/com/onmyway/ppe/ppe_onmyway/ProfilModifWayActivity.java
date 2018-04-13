@@ -147,14 +147,22 @@ public class ProfilModifWayActivity extends AppCompatActivity implements Locatio
 
         //modification of the note
         if(way.getNoteway()==1){
+            imageViewNote.setImageResource(android.R.color.transparent);
             imageViewNote.setImageResource(R.drawable.unetoiles);
         }else if(way.getNoteway()==2){
+            imageViewNote.setImageResource(android.R.color.transparent);
             imageViewNote.setImageResource(R.drawable.deuxetoiles);
+        }else if(way.getNoteway()==0){
+            imageViewNote.setImageResource(android.R.color.transparent);
+            imageViewNote.setImageResource(R.drawable.zeroetoiles);
         }else if(way.getNoteway()==3){
+            imageViewNote.setImageResource(android.R.color.transparent);
             imageViewNote.setImageResource(R.drawable.troisetoiles);
         }else if(way.getNoteway()==4){
+            imageViewNote.setImageResource(android.R.color.transparent);
             imageViewNote.setImageResource(R.drawable.quatreetoiles);
         }else if(way.getNoteway()==5){
+            imageViewNote.setImageResource(android.R.color.transparent);
             imageViewNote.setImageResource(R.drawable.cinqetoiles);
         }
 
